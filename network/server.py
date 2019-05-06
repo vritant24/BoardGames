@@ -1,21 +1,19 @@
-import socketio
-from aiohttp import web
+from mysocket import *
 
-sio = socketio.AsyncServer(async_mode='aiohttp')
-app = web.Application()
-sio.attach(app)
+PORT = 7766
 
-@sio.on('connect')
-def connect(sid, environ):
-    print('connect ', sid)
+def initServer():
+    sock = createTCPSocket()
+    bindSocketToPortandListen(sock, PORT)
 
-@sio.on('my message')
-def message(sid, data):
-    print('message ', data)
+    while(True):
+        (client, addr) = acceptConnections(sock)
+        (client_ip, port) = addr
+        print(client_ip)
+        break;
 
-@sio.on('disconnect')
-def disconnect(sid):
-    print('disconnect ', sid)
+    closeSocket(sock)
 
-if __name__ == '__main__':
-    web.run_app(app, port=5000)
+
+
+initServer()
