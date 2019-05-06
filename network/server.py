@@ -11,6 +11,7 @@ def initServer():
         (client_ip, port) = addr
         print(client_ip)
         print(client.recv(1024))
+        client.send(b"World!")
         break;
 
     closeSocket(sock)
